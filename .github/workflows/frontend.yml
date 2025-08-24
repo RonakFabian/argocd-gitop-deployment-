@@ -15,7 +15,8 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "19"
+          node-version: "19.1.1"
+          check-latest: true
           cache: "npm"
           cache-dependency-path: frontend/package-lock.json
 
