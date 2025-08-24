@@ -25,6 +25,9 @@ jobs:
       - name: Build React app
         run: cd frontend/my-app && npm run build
 
+      - name: Find index.js
+        run: find . -name "index.js"
+
       - name: Upload index.js artifact
         uses: actions/upload-artifact@v4
         with:
