@@ -24,13 +24,13 @@ jobs:
 
       - name: Build React app
         run: cd frontend/my-app && npm run build
-      - name: Deploy to S3
-        uses: aws-actions/s3-sync@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          bucket: ${{ secrets.S3_BUCKET }}
-          region: ${{ secrets.AWS_REGION }}
-          source: frontend/my-app/build
-          delete: true # clears old files
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Sync build to S3
+        run: aws s3 sync frontend/my-app/build s3://${{ secrets.S3_BUCKET }} --delete
