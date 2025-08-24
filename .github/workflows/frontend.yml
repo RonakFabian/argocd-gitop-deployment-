@@ -24,9 +24,13 @@ jobs:
 
       - name: Build React app
         run: cd frontend/my-app && npm run build
-
-      - name: Upload index.html artifact
-        uses: actions/upload-artifact@v4
+      - name: Deploy to S3
+        uses: aws-actions/s3-sync@v2
         with:
-          name: index.js
-          path: frontend/my-app/build/index.html
+          bucket: ${{ secrets.S3_BUCKET }}
+          region: ${{ secrets.AWS_REGION }}
+          source: frontend/my-app/build
+          delete: true # clears old files
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
