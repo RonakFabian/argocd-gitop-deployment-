@@ -23,6 +23,8 @@ jobs:
         run: cd frontend/my-app && npm ci
 
       - name: Build React app
+        env:
+          REACT_APP_API_URL: ${{ vars.REACT_APP_API_URL }}
         run: cd frontend/my-app && npm run build
 
       - name: Configure AWS credentials
